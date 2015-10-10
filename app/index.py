@@ -1,20 +1,20 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""
+App Index - main entry point.
+"""
 import web
 
-urls = ("/.*", "Hello")
+urls = (
+    "/form", "views.EnvelopeFormView",
+    "/response", "views.EnvelopeResponseView",
+)
 
 app = web.application(urls, globals())
-render = web.template.render('app/templates/')
 
-class Hello:
-    def GET(self):
-        name = 'Bob'
-        return render.form(name)
-
+# Get the WSGI app, to be used with gunicorn.
+wsgi_app = app.wsgifunc()
 
 if __name__ == "__main__":
-    # web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
-    app = web.application(urls, globals())
+    # Use as a standalone python simple server, for debugging.
+    # python index.py
     app.run()
