@@ -1,6 +1,39 @@
-$def with (name)
+$def with (action_url, )
 
-$if name:
-    I just wanted to say <em>hello</em> to $name.
-$else:
-    <em>Hello</em>, world!
+$var title: Envelope Form.
+
+<h1>The Magic Envelope</h1>
+
+<form id="envelope-form" action="$action_url" method="POST">
+    <div class="form-group">
+        <label for="entry.1502227107">Amount</label>
+        <input class="form-control" type="number" name="entry.1502227107" id="entry_1502227107" value="">
+    </div>
+    <div class="form-group">
+        <label for="entry.618861186">Tag</label>
+        <select class="form-control" name="entry.618861186" id="entry_618861186">
+            <option value=""></option>
+            <option value="Pocket Money - John">Pocket Money - John</option>
+            <option value="Pocket Money - Jade">Pocket Money - Jade</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Restaurants">Restaurants</option>
+            <option value="Sports">Sports</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Donation">Donation</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+            <option value="Load">Load</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="entry.32186776">Observations</label>
+        <input class="form-control" type="text" name="entry.32186776" value="">
+    </div>
+
+    <input type="hidden" name="draftResponse" value="[,,&quot;114737666359124302&quot;]">
+    <input type="hidden" name="pageHistory" value="0">
+    <input type="hidden" name="fvv" value="0">
+    <input type="hidden" name="fbzx" value="114737666359124302">
+
+
+    <input type="submit" name="submit" value="Submit" class="btn btn-default">
+</form>

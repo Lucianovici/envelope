@@ -54,6 +54,7 @@ function config_nginx {
     add_nginx_custom_repo
     cp /vagrant/nginx/envelope.conf /etc/nginx/conf.d/
     mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf_disabled
+    rm /etc/nginx/sites-enabled/default
     sudo service nginx restart
 }
 

@@ -3,16 +3,15 @@ App views
 """
 import web
 
-render = web.template.render('templates/')
+render = web.template.render('templates/', base='base')
 
 
 class EnvelopeFormView(object):
     def GET(self):
-        name = 'Bob Form'
-        return render.form(name)
+        action_url = 'https://docs.google.com/forms/d/1p9SXHNFLTkcbnMTbBLoftJMM1NrR5WChE2qOEaY92tk/formResponse'
+        return render.form(action_url)
 
 
 class EnvelopeResponseView(object):
     def GET(self):
-        name = 'Bob Response'
-        return render.form(name)
+        return render.response()

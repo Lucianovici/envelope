@@ -1,0 +1,19 @@
+$def with (content)
+
+<html>
+<head>
+    <title>$content.title</title>
+
+    <link rel="stylesheet" href="static/vendor/bootstrap/css/bootstrap.min.css" type="text/css" />
+</head>
+<body>
+
+<div class="container">
+$:content
+</div>
+
+<script src="static/vendor/jquery/jquery-2.1.4.min.js"></script>
+<script src="static/vendor/jquery/validation/jquery.validate.min.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>
