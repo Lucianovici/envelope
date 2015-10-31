@@ -1,18 +1,43 @@
-(function($){
+/**
+ * Envelope app.
+ */
+(function ($) {
     var EnvelopeApp = {
-        init : function() {
-            $("#envelope-form").validate({
-                submitHandler: this.submitForm
+        submitForm: function (form) {
+            var $form = $(form);
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: $form.serialize(),
+                success: this.submitSuccessCallback.bind(this),
+                error: this.submitErrorCallback.bind(this)
             });
         },
 
-        submitForm : function(form) {
-            alert("TBI: Frontend validation");
-            // Use hidden iframe to submit the actual form and show the custom response afterwards.
-            form.submit();
-            window.location.replace("/response");
+        submitSuccessCallback: function (data, textStatus, jqXHR) {
+            if (data && data['isResponseRecorded']) {
+                window.location.href = "/response"
+            } else {
+                this.displayGeneralError();
+            }
+        },
+
+        submitErrorCallback: function (jqXHR, textStatus, errorThrown) {
+            this.displayGeneralError();
+        },
+
+        displayGeneralError: function () {
+            $("#general-error-placeholder").append($("<p>").html("Something went wrong!"))
+        },
+
+        init: function () {
+            $("#envelope-form").validate({
+                submitHandler: this.submitForm.bind(this)
+            });
         }
     };
+
 
     EnvelopeApp.init();
 })(jQuery);

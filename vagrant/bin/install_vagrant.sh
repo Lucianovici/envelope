@@ -52,10 +52,11 @@ function install_packages {
 function config_nginx {
     checkpoint "Configuring Nginx ..."
     add_nginx_custom_repo
+    cp /vagrant/nginx/nginx.conf /etc/nginx/
     cp /vagrant/nginx/envelope.conf /etc/nginx/conf.d/
     mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf_disabled
     rm /etc/nginx/sites-enabled/default
-    sudo service nginx restart
+    service nginx restart
 }
 
 function config_supervisor {

@@ -1,19 +1,17 @@
-$def with (action_url, )
-
 $var title: Envelope Form.
 
 <h1>The Magic Envelope</h1>
 
-<form id="envelope-form" action="$action_url" method="POST">
+<form id="envelope-form" action="" method="POST">
     <div class="form-group">
         <label for="entry.1502227107">Amount</label>
-        <input class="form-control" type="number" name="entry.1502227107" id="entry_1502227107" value="">
+        <input class="form-control" type="number" name="entry.1502227107" id="amount" value="1" required min="1">
     </div>
     <div class="form-group">
         <label for="entry.618861186">Tag</label>
-        <select class="form-control" name="entry.618861186" id="entry_618861186">
+        <select class="form-control" name="entry.618861186" id="tag" required>
             <option value=""></option>
-            <option value="Pocket Money - John">Pocket Money - John</option>
+            <option selected value="Pocket Money - John">Pocket Money - John</option>
             <option value="Pocket Money - Jade">Pocket Money - Jade</option>
             <option value="Shopping">Shopping</option>
             <option value="Restaurants">Restaurants</option>
@@ -26,7 +24,7 @@ $var title: Envelope Form.
     </div>
     <div class="form-group">
         <label for="entry.32186776">Observations</label>
-        <input class="form-control" type="text" name="entry.32186776" value="">
+        <input class="form-control" type="text" name="entry.32186776" id="observations" value="">
     </div>
 
     <input type="hidden" name="draftResponse" value="[,,&quot;114737666359124302&quot;]">
@@ -37,3 +35,7 @@ $var title: Envelope Form.
 
     <input type="submit" name="submit" value="Submit" class="btn btn-default">
 </form>
+
+<div id="general-error-placeholder">
+
+</div>
