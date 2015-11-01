@@ -3,10 +3,11 @@
 App Index - main entry point.
 """
 import web
+import settings
 
 urls = (
-    "/form", "views.EnvelopeFormView",
-    "/response", "views.EnvelopeResponseView",
+    settings.FORM_URL, "views.EnvelopeFormView",
+    settings.RESPONSE_URL, "views.EnvelopeResponseView",
 )
 
 app = web.application(urls, globals())

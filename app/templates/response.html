@@ -1,8 +1,10 @@
-$def with (total, )
+$def with (current_balance, last_expense_registered, form_url)
 
 $var title: Done.
 
 <h1>Done.</h1>
 
-<h4>Just added: TBI</h4>
-<h4>You have $total left.</h4>
+<h4>Last added expense was: $last_expense_registered</h4>
+<h4>Current balance is: <strong>$current_balance</strong></h4>
+
+<a href="$form_url">Add another one</a>

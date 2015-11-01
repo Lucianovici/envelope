@@ -47,8 +47,9 @@ class EnvelopeResponseView(object):
 
         worksheet = sheet.get_worksheet(0)
 
-        total = worksheet.acell('B1').value
-        return render.response(total)
+        current_balance = worksheet.acell('B1').value
+        last_expense_registered = worksheet.acell('B4').value
+        return render.response(current_balance, last_expense_registered, settings.FORM_URL)
 
     def get_google_spreadsheet(self):
         auth_file = open('auth/google_auth.json')
