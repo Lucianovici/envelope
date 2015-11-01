@@ -1,5 +1,6 @@
 .idea/
 vagrant/.vagrant/
+auth/google_auth.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

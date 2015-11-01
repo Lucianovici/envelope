@@ -1,0 +1,8 @@
+{
+  "sheet_id": "your-sheet-id-xxx",
+  "private_key_id": "1234",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nXXXXXXX\n-----END PRIVATE KEY-----\n",
+  "client_email": "xxx@developer.gserviceaccount.com",
+  "client_id": "xxx.apps.googleusercontent.com",
+  "type": "service_account"
+}

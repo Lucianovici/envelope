@@ -6,6 +6,9 @@ import json
 
 import web
 
+import gspread
+from oauth2client.client import SignedJwtAssertionCredentials
+
 import settings
 
 render = web.template.render('templates/', base='base')
@@ -21,7 +24,7 @@ class EnvelopeFormView(object):
         is_response_recorded = settings.GOOGLE_DOCS_FORM_SUCCESSFUL_RESPONSE_MESSAGE in response.read()
 
         json_response = {
-            'isResponseRecorded': is_response_recorded
+            'isResponseRecorded': is_response_recorded,
         }
 
         web.header('Content-Type', 'application/json')
@@ -40,4 +43,19 @@ class EnvelopeFormView(object):
 
 class EnvelopeResponseView(object):
     def GET(self):
-        return render.response()
+        sheet = self.get_google_spreadsheet()
+
+        worksheet = sheet.get_worksheet(0)
+
+        total = worksheet.acell('B1').value
+        return render.response(total)
+
+    def get_google_spreadsheet(self):
+        auth_file = open('auth/google_auth.json')
+        json_key = json.load(auth_file)
+        scope = ['https://spreadsheets.google.com/feeds']
+        credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
+        gc = gspread.authorize(credentials)
+        sheet = gc.open_by_key(json_key['sheet_id'])
+        auth_file.close()
+        return sheet

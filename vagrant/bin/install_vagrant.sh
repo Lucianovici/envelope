@@ -44,6 +44,7 @@ function install_packages {
     apt-get -q -y install supervisor
     apt-get -q -y install virtualenvwrapper
     apt-get -q -y install python-dev
+    apt-get -q -y install libffi-dev
     apt-get -q -y install nginx
     apt-get -q -y install git
     apt-get -q -y install vim
