@@ -7,6 +7,8 @@ import os
 FORM_URL = os.getenv("ENVELOPE_FORM_URL", "/form")
 RESPONSE_URL = os.getenv("ENVELOPE_RESPONSE_URL", "/response")
 
+FORM_TAG_OPTIONS = os.getenv("ENVELOPE_FORM_TAG_OPTIONS", "TBD")
+
 GOOGLE_DOCS_FORM_SUCCESSFUL_RESPONSE_MESSAGE = "Your response has been recorded"
 
 GOOGLE_DOCS_HOST = "docs.google.com"

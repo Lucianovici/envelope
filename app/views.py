@@ -6,11 +6,8 @@ import httplib
 import json
 
 import web
-
-import gspread
-from oauth2client.client import SignedJwtAssertionCredentials
-
 import settings
+from services import google_spreadsheet
 
 render = web.template.render('templates/', base='base')
 
@@ -44,14 +41,16 @@ class EnvelopeFormView(object):
 
 class EnvelopeResponseView(object):
     def GET(self):
-        sheet = self.get_google_spreadsheet()
-
-        worksheet = sheet.get_worksheet(0)
+        print("GET: EnvelopeResponseView")
+        worksheet = google_spreadsheet.get_worksheet(0)
+        print("GET: We have the worksheet")
 
         current_balance = worksheet.acell('B1').value
         last_entry_registered_amount = worksheet.acell('B2').value
         last_entry_registered_date = worksheet.acell('D2').value
         last_entry_registered_tag = worksheet.acell('F2').value
+        print("GET: About to return")
+
         return render.response(
             current_balance,
             last_entry_registered_amount,
@@ -59,13 +58,3 @@ class EnvelopeResponseView(object):
             last_entry_registered_tag,
             settings.FORM_URL
         )
-
-    def get_google_spreadsheet(self):
-        auth_file = open('auth/google_auth.json')
-        json_key = json.load(auth_file)
-        scope = ['https://spreadsheets.google.com/feeds']
-        credentials = SignedJwtAssertionCredentials(json_key['client_email'], json_key['private_key'].encode(), scope)
-        gc = gspread.authorize(credentials)
-        sheet = gc.open_by_key(json_key['sheet_id'])
-        auth_file.close()
-        return sheet
