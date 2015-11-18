@@ -8,6 +8,7 @@ _GROUP=${GROUP:-"www-data"}
 _NUM_WORKERS=${NUM_WORKERS:-"3"}
 _LOG_LEVEL=${LOG_LEVEL:-"debug"}
 _HOME_DIR=${HOME_DIR:-"/home/vagrant"}
+_TIMEOUT=${TIMEOUT:-"180"
 
 VENV_NAME=virtualenv
 VENV_DIR=${_HOME_DIR}/${VENV_NAME}
@@ -34,6 +35,7 @@ exec ${VENV_DIR}/bin/gunicorn ${WSGI_MODULE}:${WSGI_APP_VAR} \
   --name ${_NAME} \
   --bind ${_IP}:${_PORT} \
   --workers ${_NUM_WORKERS} \
+  --timeout ${_TIMEOUT} \
   --user=${_USER} --group=${_GROUP} \
   --log-level=${_LOG_LEVEL} \
   --bind=unix:${SOCKET_FILE}
