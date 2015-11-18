@@ -6,6 +6,7 @@ _PORT=${PORT:-"4000"}
 _USER=${USER:-"www-data"}
 _GROUP=${GROUP:-"www-data"}
 _NUM_WORKERS=${NUM_WORKERS:-"3"}
+_LOG_LEVEL=${LOG_LEVEL:-"debug"}
 _HOME_DIR=${HOME_DIR:-"/home/vagrant"}
 
 VENV_NAME=virtualenv
@@ -34,5 +35,5 @@ exec ${VENV_DIR}/bin/gunicorn ${WSGI_MODULE}:${WSGI_APP_VAR} \
   --bind ${_IP}:${_PORT} \
   --workers ${_NUM_WORKERS} \
   --user=${_USER} --group=${_GROUP} \
-  --log-level=info \
+  --log-level=${_LOG_LEVEL} \
   --bind=unix:${SOCKET_FILE}
