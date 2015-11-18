@@ -40,6 +40,8 @@ function set_locale {
 
 function install_packages {
     checkpoint "Installing packages ..."
+    add_nginx_custom_repo
+
     apt-get update
     apt-get -q -y install supervisor
     apt-get -q -y install virtualenvwrapper
@@ -52,7 +54,6 @@ function install_packages {
 
 function config_nginx {
     checkpoint "Configuring Nginx ..."
-    add_nginx_custom_repo
     cp /vagrant/nginx/nginx.conf /etc/nginx/
     cp /vagrant/nginx/envelope.conf /etc/nginx/conf.d/
     mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf_disabled
