@@ -8,7 +8,7 @@ _GROUP=${GROUP:-"www-data"}
 _NUM_WORKERS=${NUM_WORKERS:-"3"}
 _LOG_LEVEL=${LOG_LEVEL:-"debug"}
 _HOME_DIR=${HOME_DIR:-"/home/vagrant"}
-_TIMEOUT=${TIMEOUT:-"180"
+_TIMEOUT=${TIMEOUT:-"180"}
 
 VENV_NAME=virtualenv
 VENV_DIR=${_HOME_DIR}/${VENV_NAME}
