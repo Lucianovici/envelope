@@ -7,7 +7,7 @@ import settings
 
 urls = (
     settings.FORM_URL, "views.EnvelopeFormView",
-    settings.RESPONSE_URL, "views.EnvelopeResponseView",
+    settings.STATS_URL, "views.EnvelopeStatsView",
 )
 
 app = web.application(urls, globals())

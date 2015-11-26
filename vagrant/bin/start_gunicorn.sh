@@ -17,6 +17,7 @@ APP_ROOT_DIR=${_HOME_DIR}/envelope/app
 GUNICORN_DIR=${_HOME_DIR}/gunicorn
 SOCKET_FILE=${GUNICORN_DIR}/envelope.sock
 RUN_DIR=$(dirname ${SOCKET_FILE})
+
 # Create the run directory if it doesn't exist
 test -d ${RUN_DIR} || mkdir -p ${RUN_DIR}
 

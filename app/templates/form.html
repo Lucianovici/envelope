@@ -1,8 +1,10 @@
-$var title: Envelope Form.
+$def with (context)
+
+$var title: $context.title
 
 <h1>The Envelope</h1>
 
-<form id="envelope-form" action="" method="POST">
+<form id="envelope-form" action="" method="POST" data-response-url="$context.form_response_url">
     <div class="form-group">
         <label for="entry.1502227107">Amount</label>
         <input class="form-control" type="number" name="entry.1502227107" id="amount" value="1" required min="1">

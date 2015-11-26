@@ -43,13 +43,13 @@ function install_packages {
     add_nginx_custom_repo
 
     apt-get update
-    apt-get -q -y install supervisor
-    apt-get -q -y install virtualenvwrapper
-    apt-get -q -y install python-dev
-    apt-get -q -y install libffi-dev
-    apt-get -q -y install nginx
-    apt-get -q -y install git
-    apt-get -q -y install vim
+    apt-get -q -y --force-yes install supervisor
+    apt-get -q -y --force-yes install virtualenvwrapper
+    apt-get -q -y --force-yes install python-dev
+    apt-get -q -y --force-yes install libffi-dev
+    apt-get -q -y --force-yes install nginx
+    apt-get -q -y --force-yes install git
+    apt-get -q -y --force-yes install vim
 }
 
 function config_nginx {

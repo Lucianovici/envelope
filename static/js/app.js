@@ -17,7 +17,7 @@
 
         submitSuccessCallback: function (data, textStatus, jqXHR) {
             if (data && data['isResponseRecorded']) {
-                window.location.href = "/response"
+                window.location.href = this.formResponseUrl;
             } else {
                 this.displayGeneralError();
             }
@@ -32,7 +32,10 @@
         },
 
         init: function () {
-            $("#envelope-form").validate({
+            this.$envelopeForm = $("#envelope-form");
+            this.formResponseUrl = this.$envelopeForm.data("response-url");
+
+            this.$envelopeForm.validate({
                 submitHandler: this.submitForm.bind(this)
             });
         }

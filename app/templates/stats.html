@@ -1,0 +1,15 @@
+$def with (context)
+
+$var title: $context.title
+
+<h1>Quick stats.</h1>
+
+<h2>Your current balance is: <strong>$context.current_balance</strong></h2>
+
+<hr\>
+
+<h4>Last entry: <strong>$context.last_amount</strong> for "$context.last_tag"</h4>
+<p>Observation: <i>$context.last_observation</i></p>
+<p>Registered on <cite>$context.last_date</cite></p>
+
+<a href="$context.form_url" class="btn btn-success">Add another one</a>

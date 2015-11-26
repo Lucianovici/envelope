@@ -6,6 +6,7 @@ import json
 import time
 
 import gspread
+import pprint
 from oauth2client.client import SignedJwtAssertionCredentials
 
 start_time = time.time()
@@ -20,7 +21,7 @@ def print_tt(msg):
 
 
 def get_google_auth_json():
-    auth_file = open('../auth/google_auth.json')
+    auth_file = open('../app/auth/google_auth.json')
     print_tt("get_google_spreadsheet: Credentials file opened")
     auth_json = json.load(auth_file)
     auth_file.close()
@@ -52,23 +53,16 @@ def get_google_spreadsheet():
 
 google_spreadsheet = get_google_spreadsheet()
 
-print_tt("GET: EnvelopeResponseView")
+print_tt("Preparing to get the spreadsheet")
 worksheet = google_spreadsheet.get_worksheet(0)
-print_tt("GET: We have the worksheet")
+print_tt("We got the spreadsheet!")
 
-current_balance = worksheet.acell('B1').value
-last_entry_registered_amount = worksheet.acell('B2').value
-last_entry_registered_date = worksheet.acell('D2').value
-last_entry_registered_tag = worksheet.acell('F2').value
+worksheet_values = worksheet.get_all_values()
 
-print_tt("GET: About to return")
+print_tt("We got the values for the worksheet")
 
-print("Results: %r" % [
-    current_balance,
-    last_entry_registered_amount,
-    last_entry_registered_date,
-    last_entry_registered_tag
-])
+print("Results:\n")
+pprint.pprint(worksheet_values)
 
 end_time = time.time()
 

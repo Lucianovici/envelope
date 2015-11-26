@@ -15,11 +15,18 @@ render = web.template.render('templates/', base='base')
 
 class EnvelopeFormView(object):
     def GET(self):
-        return render.form()
+        context = {
+            'title': 'Envelope',
+            'form_response_url': settings.STATS_URL
+        }
+        
+        return render.form(
+            web.storage(context)
+        )
 
     def POST(self):
         data = web.data()
-        response = self.get_post_response(data)
+        response = self._get_post_response(data)
         is_response_recorded = settings.GOOGLE_DOCS_FORM_SUCCESSFUL_RESPONSE_MESSAGE in response.read()
 
         json_response = {
@@ -29,33 +36,37 @@ class EnvelopeFormView(object):
         web.header('Content-Type', 'application/json')
         return json.dumps(json_response)
 
-    def get_post_response(self, data):
+    def _get_post_response(self, data):
         headers = {
-            "Content-type": "application/x-www-form-urlencoded",
-            "Accept": "text/html"
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Accept': 'text/html'
         }
         conn = httplib.HTTPSConnection(settings.GOOGLE_DOCS_HOST)
-        conn.request("POST", settings.GOOGLE_DOCS_FORM_URL, data, headers)
+        conn.request('POST', settings.GOOGLE_DOCS_FORM_URL, data, headers)
         response = conn.getresponse()
+        
         return response
 
 
-class EnvelopeResponseView(object):
+class EnvelopeStatsView(object):
     def GET(self):
         service = GoogleApiService(auth_json_file_path='auth/google_auth.json')
 
         spreadsheet = service.get_spreadsheet()
         worksheet = spreadsheet.get_worksheet(0)
 
-        current_balance = worksheet.acell('B1').value
-        last_entry_registered_amount = worksheet.acell('B2').value
-        last_entry_registered_date = worksheet.acell('D2').value
-        last_entry_registered_tag = worksheet.acell('F2').value
+        overall_worksheet_values = worksheet.get_all_values()
 
-        return render.response(
-            current_balance,
-            last_entry_registered_amount,
-            last_entry_registered_date,
-            last_entry_registered_tag,
-            settings.FORM_URL
+        context = {
+            'title': 'Stats',
+            'current_balance': overall_worksheet_values[0][1],
+            'last_amount': overall_worksheet_values[1][1],
+            'last_date': overall_worksheet_values[1][3],
+            'last_tag': overall_worksheet_values[1][5],
+            'last_observation': overall_worksheet_values[1][6],
+            'form_url': settings.FORM_URL
+        }
+
+        return render.stats(
+            web.storage(context)
         )
