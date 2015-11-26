@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Services that help to manage Google Spreadsheet API
 """
@@ -7,35 +8,28 @@ import gspread
 from oauth2client.client import SignedJwtAssertionCredentials
 
 
-def get_google_auth_json():
-    auth_file = open('auth/google_auth.json')
-    print("get_google_spreadsheet: Credentials file opened")
-    auth_json = json.load(auth_file)
-    auth_file.close()
-    return auth_json
+class GoogleApiService(object):
+    """
+    Wrapper for google API and data access to spreadsheet.
+    """
+    auth_dict = {}
 
+    def __init__(self, auth_json_file_path):
+        self._set_auth_dict_from_file(auth_json_file_path)
 
-google_auth_json = get_google_auth_json()
+    def _set_auth_dict_from_file(self, auth_json_file_path):
+        auth_file = open(auth_json_file_path)
+        self.auth_dict = json.load(auth_file)
+        auth_file.close()
 
+    def get_client(self):
+        scope = ['https://spreadsheets.google.com/feeds']
+        credentials = SignedJwtAssertionCredentials(
+            self.auth_dict['client_email'], self.auth_dict['private_key'].encode(), scope
+        )
+        client = gspread.authorize(credentials)
+        return client
 
-def get_google_client():
-    scope = ['https://spreadsheets.google.com/feeds']
-    print("get_google_spreadsheet: Json is available")
-    credentials = SignedJwtAssertionCredentials(
-        google_auth_json['client_email'], google_auth_json['private_key'].encode(), scope
-    )
-    print("get_google_spreadsheet: SignedJwtAssertionCredentials available")
-    gc = gspread.authorize(credentials)
-    return gc
-
-
-def get_google_spreadsheet():
-    gc = get_google_client()
-    print("get_google_spreadsheet: Credentials passed")
-    sheet = gc.open_by_key(google_auth_json['sheet_id'])
-    print("get_google_spreadsheet: Sheet opened by key")
-
-    return sheet
-
-
-google_spreadsheet = get_google_spreadsheet()
+    def get_spreadsheet(self, sheet_id=None):
+        client = self.get_client()
+        return client.open_by_key(sheet_id or self.auth_dict['sheet_id'])

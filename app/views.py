@@ -6,8 +6,9 @@ import httplib
 import json
 
 import web
+
 import settings
-from services import google_spreadsheet
+from services import GoogleApiService
 
 render = web.template.render('templates/', base='base')
 
@@ -41,15 +42,15 @@ class EnvelopeFormView(object):
 
 class EnvelopeResponseView(object):
     def GET(self):
-        print("GET: EnvelopeResponseView")
-        worksheet = google_spreadsheet.get_worksheet(0)
-        print("GET: We have the worksheet")
+        service = GoogleApiService(auth_json_file_path='auth/google_auth.json')
+
+        spreadsheet = service.get_spreadsheet()
+        worksheet = spreadsheet.get_worksheet(0)
 
         current_balance = worksheet.acell('B1').value
         last_entry_registered_amount = worksheet.acell('B2').value
         last_entry_registered_date = worksheet.acell('D2').value
         last_entry_registered_tag = worksheet.acell('F2').value
-        print("GET: About to return")
 
         return render.response(
             current_balance,
