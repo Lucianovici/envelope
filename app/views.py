@@ -13,13 +13,20 @@ from services import GoogleApiService
 render = web.template.render('templates/', base='base')
 
 
+class EnvelopeHomeView(object):
+    def GET(self):
+        return render.home(
+            web.storage({'title': 'Envelope'})
+        )
+
+
 class EnvelopeFormView(object):
     def GET(self):
         context = {
             'title': 'Envelope',
             'form_response_url': settings.STATS_URL
         }
-        
+
         return render.form(
             web.storage(context)
         )
@@ -44,7 +51,7 @@ class EnvelopeFormView(object):
         conn = httplib.HTTPSConnection(settings.GOOGLE_DOCS_HOST)
         conn.request('POST', settings.GOOGLE_DOCS_FORM_URL, data, headers)
         response = conn.getresponse()
-        
+
         return response
 
 
