@@ -57,7 +57,7 @@ class EnvelopeFormView(object):
 
 class EnvelopeStatsView(object):
     def GET(self):
-        service = GoogleApiService(auth_json_file_path='auth/google_auth.json')
+        service = GoogleApiService(auth_json_file_path=settings.GOOGLE_DOCS_AUTH_JSON_FILE_PATH)
 
         spreadsheet = service.get_spreadsheet()
         worksheet = spreadsheet.get_worksheet(0)
