@@ -24,6 +24,7 @@ class EnvelopeFormView(object):
     def GET(self):
         context = {
             'title': 'Envelope',
+            'form_tag_options': self._get_form_tag_options(),
             'form_response_url': settings.STATS_URL
         }
 
@@ -53,6 +54,9 @@ class EnvelopeFormView(object):
         response = conn.getresponse()
 
         return response
+
+    def _get_form_tag_options(self):
+        return [tag.strip() for tag in settings.FORM_TAG_OPTIONS.split(',')]
 
 
 class EnvelopeStatsView(object):

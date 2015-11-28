@@ -27,6 +27,10 @@
             this.displayGeneralError();
         },
 
+        errorPlacement: function (error, element) {
+            error.appendTo($("#" + element.data("id") + "-section"));
+        },
+
         displayGeneralError: function () {
             $("#general-error-placeholder").append($("<p>").html("Something went wrong!"))
         },
@@ -36,7 +40,8 @@
             this.formResponseUrl = this.$envelopeForm.data("response-url");
 
             this.$envelopeForm.validate({
-                submitHandler: this.submitForm.bind(this)
+                submitHandler: this.submitForm.bind(this),
+                errorPlacement: this.errorPlacement
             });
         }
     };

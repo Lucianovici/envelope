@@ -10,7 +10,20 @@ APP_ROOT_PATH = dirname(dirname(abspath(__file__)))
 FORM_URL = os.getenv("ENVELOPE_FORM_URL", "/form")
 STATS_URL = os.getenv("ENVELOPE_RESPONSE_URL", "/stats")
 
-FORM_TAG_OPTIONS = os.getenv("ENVELOPE_FORM_TAG_OPTIONS", "TBD")
+FORM_TAG_OPTIONS = os.getenv(
+    "ENVELOPE_FORM_TAG_OPTIONS",
+    """
+    Pocket Money - John,
+    Pocket Money - Jade,
+    Shopping,
+    Restaurants,
+    Sports,
+    Doctor,
+    Donation,
+    Miscellaneous,
+    Load
+    """
+)
 
 GOOGLE_DOCS_AUTH_JSON_FILE_PATH = os.getenv(
     "ENVELOPE_AUTH_JSON_FILE_PATH", join(APP_ROOT_PATH, "app/auth/credentials/google_auth.json")
