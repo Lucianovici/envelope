@@ -6,6 +6,8 @@
         submitForm: function (form) {
             var $form = $(form);
 
+            this.$submitButton.button('loading');
+
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -24,6 +26,7 @@
         },
 
         submitErrorCallback: function (jqXHR, textStatus, errorThrown) {
+            this.$submitButton.button('reset');
             this.displayGeneralError();
         },
 
@@ -38,6 +41,7 @@
         init: function () {
             this.$envelopeForm = $("#envelope-form");
             this.formResponseUrl = this.$envelopeForm.data("response-url");
+            this.$submitButton = $("#submit");
 
             this.$envelopeForm.validate({
                 submitHandler: this.submitForm.bind(this),

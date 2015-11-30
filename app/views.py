@@ -24,8 +24,11 @@ class EnvelopeFormView(object):
     def GET(self):
         context = {
             'title': 'Envelope',
+            'form_amount_input_name': settings.FORM_AMOUNT_INPUT_NAME,
+            'form_tag_input_name': settings.FORM_TAG_INPUT_NAME,
+            'form_observations_input_name': settings.FORM_OBSERVATIONS_INPUT_NAME,
             'form_tag_options': self._get_form_tag_options(),
-            'form_response_url': settings.STATS_URL
+            'form_response_url': settings.STATS_URL,
         }
 
         return render.form(

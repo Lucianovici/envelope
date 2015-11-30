@@ -7,8 +7,14 @@ $var title: $context.title
 <form id="envelope-form" action="" method="POST" data-response-url="$context.form_response_url">
 
     <div id="amount-section" class="form-group">
-        <label for="entry.1502227107">Amount</label>
-        <input data-id="amount" class="form-control" type="number" name="entry.1502227107" id="amount" value="" required
+        <label for="$context.form_amount_input_name">Amount</label>
+        <input id="amount"
+               data-id="amount"
+               class="form-control"
+               type="number"
+               name="$context.form_amount_input_name"
+               value=""
+               required
                min="1">
     </div>
 
@@ -16,25 +22,32 @@ $var title: $context.title
         <div class="btn-group btn-group-lg" data-toggle="buttons">
             $for tag in context.form_tag_options:
             <label class="btn btn-success">
-                <input data-id="tag" type="radio" name="entry.618861186" id="option-$loop.index" value="$tag" required>
-                $tag
+                <input id="option-$loop.index"
+                       data-id="tag"
+                       type="radio"
+                       name="$context.form_tag_input_name"
+                       value="$tag"
+                       required>$tag
             </label>
         </div>
     </div>
 
-    <div id="observation-section" class="form-group">
-        <label for="entry.32186776">Observations</label>
-        <input data-id="observation" class="form-control observation-input" type="text" name="entry.32186776"
-               id="observations" value="">
+    <div id="observations-section" class="form-group">
+        <label for="$context.form_observations_input_name">Observations</label>
+        <input id="observations"
+               data-id="observations"
+               class="form-control observation-input"
+               type="text"
+               name="$context.form_observations_input_name"
+               value="">
     </div>
 
-    <input type="hidden" name="draftResponse" value="[,,&quot;114737666359124302&quot;]">
-    <input type="hidden" name="pageHistory" value="0">
-    <input type="hidden" name="fvv" value="0">
-    <input type="hidden" name="fbzx" value="114737666359124302">
-
-
-    <input type="submit" name="submit" value="Submit" class="btn btn-lg btn-primary">
+    <input id="submit"
+           type="submit"
+           name="submit"
+           value="Submit"
+           class="btn btn-lg btn-primary"
+           data-loading-text="Submitting ...">
 
 </form>
 
