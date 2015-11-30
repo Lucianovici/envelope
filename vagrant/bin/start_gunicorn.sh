@@ -9,14 +9,15 @@ _NUM_WORKERS=${NUM_WORKERS:-"3"}
 _LOG_LEVEL=${LOG_LEVEL:-"debug"}
 _HOME_DIR=${HOME_DIR:-"/home/vagrant"}
 _TIMEOUT=${TIMEOUT:-"180"}
+_SOCKET_FILE_NAME=${SOCKET_FILE_NAME:-"envelope.sock"}
 
 VENV_NAME=virtualenv
 VENV_DIR=${_HOME_DIR}/${VENV_NAME}
 APP_ROOT_DIR=${_HOME_DIR}/envelope/app
 
 GUNICORN_DIR=${_HOME_DIR}/gunicorn
-SOCKET_FILE=${GUNICORN_DIR}/envelope.sock
-RUN_DIR=$(dirname ${SOCKET_FILE})
+SOCKET_FILE_PATH=${GUNICORN_DIR}/${_SOCKET_FILE_NAME}
+RUN_DIR=$(dirname ${SOCKET_FILE_PATH})
 
 # Create the run directory if it doesn't exist
 test -d ${RUN_DIR} || mkdir -p ${RUN_DIR}
@@ -39,4 +40,4 @@ exec ${VENV_DIR}/bin/gunicorn ${WSGI_MODULE}:${WSGI_APP_VAR} \
   --timeout ${_TIMEOUT} \
   --user=${_USER} --group=${_GROUP} \
   --log-level=${_LOG_LEVEL} \
-  --bind=unix:${SOCKET_FILE}
+  --bind=unix:${SOCKET_FILE_PATH}
