@@ -53,7 +53,7 @@ class EnvelopeFormView(object):
             'Accept': 'text/html'
         }
         conn = httplib.HTTPSConnection(settings.GOOGLE_DOCS_HOST)
-        conn.request('POST', settings.GOOGLE_DOCS_FORM_URL, data, headers)
+        conn.request('POST', settings.FORM_ACTION_URL, data, headers)
         response = conn.getresponse()
 
         return response
@@ -66,7 +66,7 @@ class EnvelopeStatsView(object):
     def GET(self):
         service = GoogleApiService(auth_json_file_path=settings.GOOGLE_DOCS_AUTH_JSON_FILE_PATH)
 
-        spreadsheet = service.get_spreadsheet()
+        spreadsheet = service.get_spreadsheet(settings.RESPONSES_SPREADSHEET_ID)
         worksheet = spreadsheet.get_worksheet(0)
 
         overall_worksheet_values = worksheet.get_all_values()

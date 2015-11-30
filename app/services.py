@@ -30,6 +30,6 @@ class GoogleApiService(object):
         client = gspread.authorize(credentials)
         return client
 
-    def get_spreadsheet(self, sheet_id=None):
+    def get_spreadsheet(self, sheet_id):
         client = self.get_client()
-        return client.open_by_key(sheet_id or self.auth_dict['sheet_id'])
+        return client.open_by_key(sheet_id)

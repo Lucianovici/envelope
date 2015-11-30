@@ -37,7 +37,14 @@ GOOGLE_DOCS_FORM_SUCCESSFUL_RESPONSE_MESSAGE = os.getenv(
     "ENVELOPE_DOCS_FORM_SUCCESSFUL_RESPONSE_MESSAGE", "Your response has been recorded"
 )
 
+# Go to your live google form and inspect the <form> element. Use its `action` here.
 GOOGLE_DOCS_HOST = "docs.google.com"
-GOOGLE_DOCS_FORM_URL = os.getenv(
-    "ENVELOPE_DOCS_FORM_URL", "/forms/d/1p9SXHNFLTkcbnMTbBLoftJMM1NrR5WChE2qOEaY92tk/formResponse"
+FORM_ACTION_URL = os.getenv(
+    "ENVELOPE_FORM_ACTION_URL", "/forms/d/1p9SXHNFLTkcbnMTbBLoftJMM1NrR5WChE2qOEaY92tk/formResponse"
 )
+
+# Use your response google spreadsheet linked with the form.
+RESPONSES_SPREADSHEET_ID = os.getenv(
+    "ENVELOPE_RESPONSES_SPREADSHEET_ID", "1JdA9__NEHCuqnt6hKvidM7rHIalme-G0Z_NcPHsi6_4"
+)
+
