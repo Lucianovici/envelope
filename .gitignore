@@ -1,6 +1,7 @@
 .idea/
 vagrant/.vagrant/
 app/auth/credentials/
+app/settings_local.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

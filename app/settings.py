@@ -8,7 +8,7 @@ from os.path import dirname, abspath, join
 APP_ROOT_PATH = dirname(dirname(abspath(__file__)))
 
 FORM_URL = os.getenv("ENVELOPE_FORM_URL", "/form")
-STATS_URL = os.getenv("ENVELOPE_RESPONSE_URL", "/stats")
+STATS_URL = os.getenv("ENVELOPE_STATS_URL", "/stats")
 
 FORM_TAG_OPTIONS = os.getenv(
     "ENVELOPE_FORM_TAG_OPTIONS",
@@ -30,7 +30,7 @@ FORM_TAG_INPUT_NAME = os.getenv("ENVELOPE_FORM_TAG_INPUT_NAME", "entry.618861186
 FORM_OBSERVATIONS_INPUT_NAME = os.getenv("ENVELOPE_FORM_OBSERVATIONS_INPUT_NAME", "entry.32186776")
 
 GOOGLE_DOCS_AUTH_JSON_FILE_PATH = os.getenv(
-    "ENVELOPE_AUTH_JSON_FILE_PATH", join(APP_ROOT_PATH, "app/auth/credentials/google_auth.json")
+    "ENVELOPE_AUTH_JSON_FILE_PATH", join(APP_ROOT_PATH, "app/auth/credentials/envelope_auth.json")
 )
 
 GOOGLE_DOCS_FORM_SUCCESSFUL_RESPONSE_MESSAGE = os.getenv(
@@ -47,4 +47,10 @@ FORM_ACTION_URL = os.getenv(
 RESPONSES_SPREADSHEET_ID = os.getenv(
     "ENVELOPE_RESPONSES_SPREADSHEET_ID", "1JdA9__NEHCuqnt6hKvidM7rHIalme-G0Z_NcPHsi6_4"
 )
+
+# Local settings override
+try:
+    from settings_local import *
+except ImportError:
+    pass
 
