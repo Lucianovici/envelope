@@ -4,8 +4,10 @@ App views
 """
 import httplib
 import json
+import urlparse
 
 import web
+from utils import ConfirmationPageParser
 
 import settings
 from services import GoogleApiService
@@ -22,6 +24,7 @@ class EnvelopeHomeView(object):
 
 class EnvelopeFormView(object):
     def GET(self):
+        data = web.input()
         context = {
             'title': 'Envelope',
             'form_amount_input_name': settings.FORM_AMOUNT_INPUT_NAME,
@@ -30,7 +33,6 @@ class EnvelopeFormView(object):
             'form_tag_options': self._get_form_tag_options(),
             'form_response_url': settings.STATS_URL,
         }
-
         return render.form(
             web.storage(context)
         )
@@ -38,10 +40,11 @@ class EnvelopeFormView(object):
     def POST(self):
         data = web.data()
         response = self._get_post_response(data)
-        is_response_recorded = settings.GOOGLE_DOCS_FORM_SUCCESSFUL_RESPONSE_MESSAGE in response.read()
+        html_response = response.read()
 
         json_response = {
-            'isResponseRecorded': is_response_recorded,
+            'is_entry_recorded': ConfirmationPageParser.is_entry_recorded_for(html_response),
+            'edit_last_response_params': ConfirmationPageParser.get_edit_last_response_form_params(html_response),
         }
 
         web.header('Content-Type', 'application/json')
@@ -52,8 +55,18 @@ class EnvelopeFormView(object):
             'Content-type': 'application/x-www-form-urlencoded',
             'Accept': 'text/html'
         }
+
+        action_url = settings.FORM_ACTION_URL
+        params_dict = urlparse.parse_qs(data)
+
+        edit_last_response_params = params_dict.get('edit-last-response-params', '')
+
+        if edit_last_response_params:
+            action_url += edit_last_response_params
+
         conn = httplib.HTTPSConnection(settings.GOOGLE_DOCS_HOST)
-        conn.request('POST', settings.FORM_ACTION_URL, data, headers)
+        conn.request('POST', action_url, data, headers)
+
         response = conn.getresponse()
 
         return response
@@ -77,10 +90,21 @@ class EnvelopeStatsView(object):
             'last_amount': overall_worksheet_values[1][1],
             'last_date': overall_worksheet_values[1][3],
             'last_tag': overall_worksheet_values[1][5],
-            'last_observation': overall_worksheet_values[1][6],
-            'form_url': settings.FORM_URL
+            'last_observations': overall_worksheet_values[1][6],
+            'form_url': settings.FORM_URL,
         }
+
+        context.update({
+            'form_edit_last_response_params': self._get_edit_last_response_params(context)
+        })
 
         return render.stats(
             web.storage(context)
+        )
+
+    def _get_edit_last_response_params(self, context):
+        return 'amount=%s&tag=%s&observations=%s' % (
+            context['last_amount'],
+            context['last_tag'],
+            context['last_observations'],
         )

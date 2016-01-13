@@ -22,7 +22,7 @@ Because you are in a rush and your cab is already waiting for you outside.
 
 After a wonderful night out, you check your wallet the next day and find out you only spent $130, because the dentist meeting went pretty well and you don't have any issues. 
 
-You probably don't want to stay with $270 in your wallet, so you decide to add it back to the envelope and edit your last register to reflect that.
+You probably don't want to stay with $270 in your wallet, so you decide to add it back to the envelope and edit your last registration to reflect that.
 
 **Suggestion:** You want to keep all the receipts in your wallet, until you adjust your last entry. It helps.
 

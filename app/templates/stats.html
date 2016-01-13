@@ -9,7 +9,8 @@ $var title: $context.title
 <hr\>
 
 <h4>Last entry: <strong>$context.last_amount</strong> for "$context.last_tag"</h4>
-<p>Observation: <i>$context.last_observation</i></p>
+<p>Observation: <i>$context.last_observations</i></p>
 <p>Registered on <cite>$context.last_date</cite></p>
 
 <a href="$context.form_url" class="btn btn-lg btn-primary">Add another one</a>
+<a href="$context.form_url?$context.form_edit_last_response_params" class="btn btn-lg btn-primary">Edit the last response</a>

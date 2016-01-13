@@ -45,6 +45,7 @@ function install_packages {
     apt-get update
     apt-get -q -y --force-yes install supervisor
     apt-get -q -y --force-yes install virtualenvwrapper
+    apt-get -q -y --force-yes install libxml2-dev libxslt1-dev
     apt-get -q -y --force-yes install python-dev
     apt-get -q -y --force-yes install libffi-dev
     apt-get -q -y --force-yes install nginx
