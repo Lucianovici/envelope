@@ -20,7 +20,7 @@
         handleEntryStored: function (data) {
             if (data['is_entry_recorded']) {
                 /* Brutally change the location to the response url */
-                //window.location.href = this.formResponseUrl;
+                //this.redirectToStatsPage();
                 console.log("SUBMITTED!");
             } else {
                 this.displayGeneralError("Your entry was not stored!");
@@ -28,17 +28,18 @@
         },
 
         handleEditLastResponse: function (data) {
-            var val = data['edit_last_response_params'];
+            //TODO: REMOVE THIS MAYBE?
+            var val = data['edit_last_entry_params'];
 
             if (val) {
-                $("input[name='edit-last-response-params']").val(val)
+                $("input[name='edit-last-entry-params']").val(val)
             }
         },
 
         submitSuccessCallback: function (data, textStatus, jqXHR) {
             if (data) {
                 this.handleEntryStored(data);
-                this.handleEditLastResponse(data);
+                //this.handleEditLastResponse(data);
             } else {
                 this.displayGeneralError("There is no data returned from the server!");
             }
@@ -46,7 +47,7 @@
 
         submitErrorCallback: function (jqXHR, textStatus, errorThrown) {
             this.$submitButton.button('reset');
-            this.displayGeneralError();
+            this.displayGeneralError(textStatus);
         },
 
         errorPlacement: function (error, element) {
@@ -57,9 +58,12 @@
             $("#general-error-placeholder").append($("<p>").html("Error! " + msg))
         },
 
+        redirectToStatsPage: function () {
+            window.location.href = $("#go-to-stats-btn").attr("href");
+        },
+
         init: function () {
             this.$envelopeForm = $("#envelope-form");
-            this.formResponseUrl = this.$envelopeForm.data("response-url");
             this.$submitButton = $("#submit");
 
             this.$envelopeForm.validate({

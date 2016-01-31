@@ -53,6 +53,10 @@ function install_packages {
     apt-get -q -y --force-yes install vim
 }
 
+function add_permissions_for_unversioned_files {
+    touch ${APP_ROOT_DIR}/edit_last_entry_params
+    chmod og+rw ${APP_ROOT_DIR}/edit_last_entry_params
+}
 function config_nginx {
     checkpoint "Configuring Nginx ..."
     cp /vagrant/nginx/nginx.conf /etc/nginx/
@@ -93,6 +97,8 @@ disable_interactivity
 
 set_locale
 install_packages
+
+add_permissions_for_unversioned_files
 
 setup_virtualenv
 config_supervisor

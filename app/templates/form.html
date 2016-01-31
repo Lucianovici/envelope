@@ -4,7 +4,7 @@ $var title: $context.title
 
 <h1>The Envelope</h1>
 
-<form id="envelope-form" action="" method="POST" data-response-url="$context.form_response_url">
+<form id="envelope-form" action="" method="POST">
 
     <div id="amount-section" class="form-group">
         <label for="$context.form_amount_input_name">Amount</label>
@@ -13,12 +13,12 @@ $var title: $context.title
                class="form-control"
                type="number"
                name="$context.form_amount_input_name"
-               value=""
+               value="$context.form_amount_input_value"
                required
                min="1">
     </div>
 
-    <div id="tag-section" class="form-group m-t-20">
+    <div id="tag-section" class="form-group m-t-20" data-selected="$context.form_tag_input_value">
         <div class="btn-group btn-group-lg" data-toggle="buttons">
             $for tag in context.form_tag_options:
             <label class="btn btn-success">
@@ -39,10 +39,10 @@ $var title: $context.title
                class="form-control observation-input"
                type="text"
                name="$context.form_observations_input_name"
-               value="">
+               value="$context.form_observations_input_value">
     </div>
 
-    <input type="hidden" name="edit-last-response-params" value="">
+    <input type="hidden" name="edit-last-entry-params" value="$context.edit_last_entry_form_params">
 
     <input id="submit"
            type="submit"
@@ -52,6 +52,11 @@ $var title: $context.title
            data-loading-text="Submitting ...">
 
 </form>
+
+<a id="go-to-stats-btn" href="$context.stats_url" class="btn btn-primary">Check the stats</a>
+<a id="go-to-stats-btn"
+   href="$context.form_url?$context.edit_last_entry_form_params"
+   class="btn btn-primary">Edit last entry</a>
 
 <div id="general-error-placeholder">
 </div>

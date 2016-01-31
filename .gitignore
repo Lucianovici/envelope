@@ -2,6 +2,7 @@
 vagrant/.vagrant/
 app/auth/credentials/
 app/settings_local.py
+edit_last_entry_params
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

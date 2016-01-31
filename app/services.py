@@ -6,6 +6,9 @@ import json
 
 import gspread
 from oauth2client.client import SignedJwtAssertionCredentials
+from os.path import join
+
+import settings
 
 
 class GoogleApiService(object):
@@ -33,3 +36,38 @@ class GoogleApiService(object):
     def get_spreadsheet(self, sheet_id):
         client = self.get_client()
         return client.open_by_key(sheet_id)
+
+
+class EditLastEntryService(object):
+    """
+    Service that helps to edit the last entry, by storing it locally in the filesystem.
+    """
+
+    filename = 'edit_last_entry_params'
+
+    @classmethod
+    def set_params(cls, form_params, google_params):
+        path = cls._get_filename_path()
+        f = open(path, 'w')
+        f.writelines([form_params, google_params])
+        f.close()
+
+    @classmethod
+    def get_params(cls):
+        form_params = ''
+        google_params = ''
+
+        path = cls._get_filename_path()
+        try:
+            f = open(path, 'r')
+            form_params = f.readline()
+            google_params = f.readline()
+            f.close()
+        except IOError:
+            pass
+
+        return form_params, google_params
+
+    @classmethod
+    def _get_filename_path(cls):
+        return join(settings.APP_ROOT_PATH, cls.filename)

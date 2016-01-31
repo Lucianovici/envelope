@@ -7,10 +7,10 @@ import json
 import urlparse
 
 import web
-from utils import ConfirmationPageParser
 
 import settings
-from services import GoogleApiService
+from services import GoogleApiService, EditLastEntryService
+from utils import ConfirmationPageParser
 
 render = web.template.render('templates/', base='base')
 
@@ -24,48 +24,75 @@ class EnvelopeHomeView(object):
 
 class EnvelopeFormView(object):
     def GET(self):
-        data = web.input()
-        context = {
-            'title': 'Envelope',
+        return render.form(
+            web.storage(self.get_context())
+        )
+
+    def _get_base_context(self):
+        return {
+            'stats_url': settings.STATS_URL,
+            'form_url': settings.FORM_URL,
             'form_amount_input_name': settings.FORM_AMOUNT_INPUT_NAME,
             'form_tag_input_name': settings.FORM_TAG_INPUT_NAME,
             'form_observations_input_name': settings.FORM_OBSERVATIONS_INPUT_NAME,
             'form_tag_options': self._get_form_tag_options(),
-            'form_response_url': settings.STATS_URL,
         }
-        return render.form(
-            web.storage(context)
-        )
+
+    def _get_form_values_context(self):
+        get_params = web.input()
+
+        return {
+            'form_amount_input_value': get_params.get(settings.FORM_AMOUNT_INPUT_NAME, ''),
+            'form_tag_input_value': get_params.get(settings.FORM_TAG_INPUT_NAME, ''),
+            'form_observations_input_value': get_params.get(settings.FORM_OBSERVATIONS_INPUT_NAME, ''),
+        }
+
+    def get_context(self):
+        context = self._get_base_context()
+        form_params, google_params = EditLastEntryService.get_params()
+        context.update(self._get_form_values_context())
+
+        context.update({
+            'title': 'Envelope',
+            'edit_last_entry_form_params': form_params,
+            'edit_last_entry_google_params': google_params
+        })
+
+        return context
 
     def POST(self):
-        data = web.data()
-        response = self._get_post_response(data)
+        post_data = web.data()
+        response = self._get_post_response(post_data)
         html_response = response.read()
+
+        EditLastEntryService.set_params(
+            form_params=post_data,
+            google_params=ConfirmationPageParser.get_edit_last_response_form_params(html_response)
+        )
 
         json_response = {
             'is_entry_recorded': ConfirmationPageParser.is_entry_recorded_for(html_response),
-            'edit_last_response_params': ConfirmationPageParser.get_edit_last_response_form_params(html_response),
         }
 
         web.header('Content-Type', 'application/json')
         return json.dumps(json_response)
 
-    def _get_post_response(self, data):
+    def _get_post_response(self, poast_data):
         headers = {
             'Content-type': 'application/x-www-form-urlencoded',
             'Accept': 'text/html'
         }
 
         action_url = settings.FORM_ACTION_URL
-        params_dict = urlparse.parse_qs(data)
+        params_dict = urlparse.parse_qs(poast_data)
 
-        edit_last_response_params = params_dict.get('edit-last-response-params', '')
+        edit_last_entry_params = params_dict.get('edit-last-entry-params', '')
 
-        if edit_last_response_params:
-            action_url += edit_last_response_params
+        if edit_last_entry_params:
+            action_url += edit_last_entry_params
 
         conn = httplib.HTTPSConnection(settings.GOOGLE_DOCS_HOST)
-        conn.request('POST', action_url, data, headers)
+        conn.request('POST', action_url, poast_data, headers)
 
         response = conn.getresponse()
 
